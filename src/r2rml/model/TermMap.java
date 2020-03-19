@@ -26,6 +26,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.XSD;
 import org.apache.log4j.Logger;
 
+import org.jsoup.Jsoup;
 import r2rml.database.Row;
 import r2rml.engine.R2RML;
 import r2rml.engine.R2RMLException;
@@ -372,7 +373,11 @@ public abstract class TermMap extends R2RMLResource {
 			if(value instanceof Literal) {
 				return (Literal) value ;
 			}
-			return ResourceFactory.createTypedLiteral(value);
+			if(value instanceof String){
+				return ResourceFactory.createTypedLiteral( Jsoup.parse(String.valueOf(value)).text());
+			}
+
+			return ResourceFactory.createTypedLiteral( value);
 		}
 		return null;
 		
