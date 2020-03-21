@@ -364,20 +364,20 @@ public abstract class TermMap extends R2RMLResource {
 		 */
 		else if(isTermTypeLiteral()) {
 			if(language != null) {
-				return ResourceFactory.createLangLiteral(value.toString(), language);
+				return ResourceFactory.createLangLiteral(Jsoup.parse(String.valueOf(value)).text(), language);
 			}
 			if(datatype != null) {
 				RDFDatatype d = R2RMLTypeMapper.getTypeByName(datatype);
-				return ResourceFactory.createTypedLiteral(value.toString(), d);
+				return ResourceFactory.createTypedLiteral(Jsoup.parse(String.valueOf(value)).text(), d);
 			}
 			if(value instanceof Literal) {
 				return (Literal) value ;
 			}
 			if(value instanceof String){
-				return ResourceFactory.createTypedLiteral( Jsoup.parse(String.valueOf(value)).text());
+				return ResourceFactory.createTypedLiteral(Jsoup.parse(String.valueOf(value)).text());
 			}
 
-			return ResourceFactory.createTypedLiteral( value);
+			return ResourceFactory.createTypedLiteral(value);
 		}
 		return null;
 		
